@@ -1,6 +1,9 @@
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import styles from "./index.module.css";
+import { ImageDisplay } from "../components/ImageDisplay";
+import { FetchButton } from "../components/FetchButton";
+import { fetchImage } from "../lib/fetchImage";
 type Image = {
   url: string;
 };
@@ -26,25 +29,10 @@ const IndexPage: NextPage = () => {
 
   return (
     <div className={styles.page}>
-      <button onClick={handleClick} className={styles.button}>
-        click me
-      </button>
-      <div>
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          <img src={imageUrl} className={styles.img} />
-        )}
-      </div>
+      <FetchButton handleClick={handleClick} />
+      <ImageDisplay loading={loading} imageUrl={imageUrl} />
     </div>
   );
-};
-
-const fetchImage = async () => {
-  const res = await fetch("https://api.thecatapi.com/v1/images/search");
-  const images = await res.json();
-  console.log(images);
-  return images[0];
 };
 
 export default IndexPage;

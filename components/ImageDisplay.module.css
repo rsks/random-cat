@@ -1,0 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700&display=swap");
+
+.img {
+  max-inline-size: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}

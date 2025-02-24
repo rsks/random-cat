@@ -11,25 +11,40 @@ type Image = {
 const IndexPage: NextPage = () => {
   const [imageUrl, setImangeUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchImage().then((newImage) => {
-      setImangeUrl(newImage.url);
-      setLoading(false);
-    });
+    fetchImage()
+      .then((newImage) => {
+        setImangeUrl(newImage.url);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching image:", error);
+        setError("画像の取得に失敗しました。");
+        setLoading(false);
+      });
   }, []);
 
   const handleClick = () => {
     setLoading(true);
-    fetchImage().then((newImage) => {
-      setImangeUrl(newImage.url);
-      setLoading(false);
-    });
+    setError(null);
+    fetchImage()
+      .then((newImage) => {
+        setImangeUrl(newImage.url);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching image:", error);
+        setError("画像の取得に失敗しました。");
+        setLoading(false);
+      });
   };
 
   return (
     <div className={styles.page}>
       <FetchButton handleClick={handleClick} />
+      {error && <p className={styles.error}>{error}</p>}
       <ImageDisplay loading={loading} imageUrl={imageUrl} />
     </div>
   );
